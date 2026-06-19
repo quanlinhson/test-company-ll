@@ -7,14 +7,14 @@ namespace Backend.Models
     public class RefreshToken
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
 
         [Required]
         public string Token { get; set; } = string.Empty;
 
         public string JwtID { get; set; } = string.Empty;
 
-        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime ExpiryDate { get; set; }
 
@@ -22,5 +22,6 @@ namespace Backend.Models
 
         [ForeignKey("User")]
         public Guid UserId { get; set; } = Guid.Empty;
+        public virtual User User { get; set; } = null!;
     }
 }

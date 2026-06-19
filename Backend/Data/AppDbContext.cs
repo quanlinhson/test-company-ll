@@ -12,8 +12,6 @@ namespace Backend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // Bắt buộc Email phải là duy nhất (Unique Index)
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();

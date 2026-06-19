@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import type { User, UserRole } from '../types/auth.types';
+import { authApi } from '../api/auth.api';
 import styles from './LoginPage.module.css';
 
 function LoginPage() {
@@ -13,7 +13,7 @@ function LoginPage() {
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    const handleLogin = (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         if (!email || !password) {
@@ -21,17 +21,18 @@ function LoginPage() {
             return;
         }
 
-        const fakeUser: User = {
-            id: "123-abc",
-            email: email,
-            role: 'Admin',
-        };
+        try {
+            // 1. Gửi request lên Backend thật
+            const response = await authApi.login({ email, password });
 
-        const fakeToken = "abc.123.xyz";
+            // 2. Lưu token và user thật vào Context
+            login(response.user, response.token);
 
-        login(fakeUser, fakeToken);
-
-        navigate('/');
+            // 3. Chuyển hướng
+            navigate('/');
+        } catch (err) {
+            setError('Email hoặc mật khẩu không chính xác!');
+        }
     };
 
     return (
