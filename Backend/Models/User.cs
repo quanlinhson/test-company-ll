@@ -10,20 +10,20 @@ namespace Backend.Models
     public class User
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(50)]
         public string Email { get; set; } = string.Empty;
 
-        public string? Password { get; set; }
+        public string? PasswordHash { get; set; }
 
         [MaxLength(20)]
         public string? Username { get; set; }
 
         public UserRole Role { get; set; } = UserRole.User;
 
-        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? LastLoginAt { get; set; }
     }

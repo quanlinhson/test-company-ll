@@ -13,10 +13,12 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+logs/
 
 # Visual Studio cache/options
 .vs/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 *.user
 *.userosscache
 *.sln.docstates
@@ -33,6 +35,7 @@ _ReSharper*/
 *.VisualState.xml
 *.suo
 *.sln
+.csharpierignore
 
 # Node modules
 node_modules/
@@ -40,30 +43,37 @@ npm-debug.log
 npm-debug.log.*
 yarn-error.log
 yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
 # Frontend build outputs
 dist/
+dist-ssr/
 build/
+*.local
+
+# Environment variables
+.env
 .env.local
 .env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # IDE
 .idea/
 *.swp
 *.swo
 *~
-.DS_Store
-Thumbs.db
 
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Editor directories and files
+*.suo
+*.ntvs*
+*.njsproj
+*.sw?
 
 # OS files
 .DS_Store
@@ -78,3 +88,17 @@ Thumbs.db
 *.log
 *.pdb
 *.tmp
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Temporary files
+tmp/
+temp/
