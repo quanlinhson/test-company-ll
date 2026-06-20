@@ -28,9 +28,27 @@ namespace Backend.Controllers
         [HttpPost("login")] // API: POST /api/auth/login
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var response = await _authService.LoginAsync(request);
+            try
+            {
+                var response = await _authService.LoginAsync(request);
+                if (response == null)
+                    return Unauthorized("Email hoặc mật khẩu không chính xác!");
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPost("refresh-token")] // API: POST /api/auth/refresh-token
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var response = await _authService.RefreshTokenAsync(request.Token);
+
             if (response == null)
-                return Unauthorized("Email hoặc mật khẩu không chính xác!");
+                return Unauthorized("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
 
             return Ok(response);
         }

@@ -1,10 +1,11 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import type { User } from '../types/auth.types';
 
 interface AuthContextType {
     user: User | null;
     token: string | null;
-    login: (userData: User, token: string) => void;
+    login: (userData: User, token: string, refreshToken: string) => void;
     logout: () => void;
 }
 
@@ -24,11 +25,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     }, []);
 
-    const login = (userData: User, jwtToken: string) => {
+    const login = (userData: User, jwtToken: string, refreshToken: string) => {
         setUser(userData);
         setToken(jwtToken);
         localStorage.setItem('user', JSON.stringify(userData));
         localStorage.setItem('token', jwtToken);
+        localStorage.setItem('refreshToken', refreshToken);
     };
 
     const logout = () => {
@@ -36,6 +38,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setToken(null);
         localStorage.removeItem('user');
         localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
     };
 
     return (
