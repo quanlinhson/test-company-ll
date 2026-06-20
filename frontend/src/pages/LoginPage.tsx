@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authApi } from '../api/auth.api';
+import InputField from '../components/FloatingInput';
 import styles from './LoginPage.module.css';
 
 function LoginPage() {
@@ -22,13 +23,10 @@ function LoginPage() {
         }
 
         try {
-            // 1. Gửi request lên Backend thật
             const response = await authApi.login({ email, password });
 
-            // 2. Lưu token và user thật vào Context
             login(response.user, response.token);
 
-            // 3. Chuyển hướng
             navigate('/');
         } catch (err) {
             setError('Email hoặc mật khẩu không chính xác!');
@@ -42,28 +40,20 @@ function LoginPage() {
 
                 <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div>
-                        <input
+                        <InputField
                             type="email"
-                            placeholder="Email của bạn"
                             value={email}
-                            onChange={(e) => {
-                                setEmail(e.target.value);
-                                setError('');
-                            }}
-                            className={styles.input}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Nhập email của bạn..."
                         />
                     </div>
 
                     <div style={{ position: 'relative' }}>
-                        <input
+                        <InputField
                             type={showPassword ? "text" : "password"}
-                            placeholder="Mật khẩu"
                             value={password}
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                                setError('');
-                            }}
-                            className={styles.input}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Nhập mật khẩu..."
                         />
                         <button
                             type="button"

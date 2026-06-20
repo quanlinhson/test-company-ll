@@ -32,7 +32,7 @@ namespace Backend.Controllers
             if (response == null)
                 return Unauthorized("Email hoặc mật khẩu không chính xác!");
 
-            return Ok(response); // Trả về mã 200 OK kèm theo Token và thông tin User
+            return Ok(response);
         }
     }
 }

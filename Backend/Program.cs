@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy => policy
-            .WithOrigins("http://localhost:5173") // Cổng mặc định của React Vite
+            .WithOrigins("http://localhost:5173")
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
@@ -48,7 +48,7 @@ using (var scope = app.Services.CreateScope())
         db.Users.Add(adminAccount);
         db.SaveChanges();
 
-        Console.WriteLine("🚀 Đã khởi tạo tài khoản Admin mặc định: admin@project.com / Admin@123456");
+        Console.WriteLine("Đã khởi tạo tài khoản Admin mặc định: admin@project.com / Admin@123456");
     }
 }
 app.MapControllers();
