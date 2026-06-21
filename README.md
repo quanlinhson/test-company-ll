@@ -36,7 +36,7 @@ cd test-company-ll
 ### 3. Set up the backend:
 - Navigate to the backend directory:
 ```bash
-cd backend
+cd Backend
 ```
 - Install dependencies:
 ```bash
@@ -71,7 +71,7 @@ npm install
 
 - Run the frontend development server:
 ```bash
-npm start
+npm run dev
 ```
 ## Architecture Diagram
 The system follows a Client-Server architecture, where the frontend (ReactJS) communicates with the backend (.NET Core) via RESTful APIs. The backend handles authentication, authorization, and data management, while the frontend provides a user-friendly interface for users to interact with the system.
