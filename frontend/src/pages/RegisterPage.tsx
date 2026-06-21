@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { authApi } from '../api/auth.api';
 import styles from './RegisterPage.module.css';
 
 function RegisterPage() {
@@ -22,7 +23,7 @@ function RegisterPage() {
         return "";
     };
 
-    const handleRegister = (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleRegister = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!email) {
@@ -36,12 +37,13 @@ function RegisterPage() {
             return;
         }
 
-        console.log("Đăng ký thành công với:", email, password);
-        const newUser = { id: "999-xyz", email: email, role: "User" };
-        localStorage.setItem('mockUser', JSON.stringify(newUser));
-
-        alert("Đăng ký thành công!");
-        navigate('/');
+        try {
+            await authApi.register({ email, password });
+            alert("Đăng ký thành công!");
+            navigate('/login');
+        } catch (err: any) {
+            setError(err.response?.data || 'Có lỗi xảy ra');
+        }
     };
 
     return (

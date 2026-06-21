@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authApi } from '../api/auth.api';
+import axios from 'axios';
 import InputField from '../components/FloatingInput';
 import styles from './LoginPage.module.css';
 
@@ -17,19 +18,24 @@ function LoginPage() {
     const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        if (!email || !password) {
-            setError('Vui lòng nhập lại Email và Mật khẩu.');
-            return;
-        }
-
         try {
             const response = await authApi.login({ email, password });
 
-            login(response.user, response.token);
+            login(response.user, response.token, response.refreshToken);
 
             navigate('/');
         } catch (err) {
-            setError('Email hoặc mật khẩu không chính xác!');
+            if (axios.isAxiosError(err)) {
+                const backendError = err.response?.data;
+
+                if (typeof backendError === 'string') {
+                    setError(backendError);
+                } else {
+                    setError('Kết nối đến máy chủ thất bại, vui lòng thử lại!');
+                }
+            } else {
+                setError('Có lỗi bất ngờ xảy ra trên trình duyệt!');
+            }
         }
     };
 
@@ -37,6 +43,7 @@ function LoginPage() {
         <div className={styles.container}>
             <div className={styles.card}>
                 <h2 style={{ textAlign: 'center', marginBottom: '24px' }}>Đăng nhập</h2>
+                {error && <p style={{ color: 'red', textAlign: 'center', marginBottom: '16px' }}>{error}</p>}
 
                 <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div>
@@ -63,8 +70,6 @@ function LoginPage() {
                             {showPassword ? 'Ẩn' : 'Hiện'}
                         </button>
                     </div>
-
-                    {error && <span style={{ color: 'red', fontSize: '14px' }}>{error}</span>}
 
                     <button type="submit" className={styles.button}>
                         Đăng nhập
