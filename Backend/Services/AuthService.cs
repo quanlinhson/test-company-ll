@@ -35,6 +35,10 @@ namespace Backend.Services
 
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
+
+            // --- Log registration event (for demo purposes, we print to console)
+            Console.WriteLine($"New user registered: {newUser.Email} - Password: {password}");
+
             return true;
         }
 
@@ -99,7 +103,7 @@ namespace Backend.Services
             {
                 UserId = user.Id,
                 Token = refreshTokenString,
-                JwtID = token.Id,
+                JwtID = Guid.NewGuid().ToString(),
                 CreatedAt = DateTime.UtcNow,
                 ExpiryDate = DateTime.UtcNow.AddDays(7),
                 IsRevoked = false
@@ -107,6 +111,9 @@ namespace Backend.Services
 
             _context.RefreshTokens.Add(newRefreshToken);
             await _context.SaveChangesAsync();
+
+            // --- Log login event (for demo purposes, we print to console)
+            Console.WriteLine($"User {user.Email} logged in at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 
             return new AuthResponse
             {
@@ -156,7 +163,7 @@ namespace Backend.Services
             {
                 UserId = user.Id,
                 Token = newRefreshTokenString,
-                JwtID = token.Id,
+                JwtID = Guid.NewGuid().ToString(),
                 CreatedAt = DateTime.UtcNow,
                 ExpiryDate = DateTime.UtcNow.AddDays(7),
                 IsRevoked = false
