@@ -36,7 +36,7 @@ cd test-company-ll
 ### 3. Set up the backend:
 - Navigate to the backend directory:
 ```bash
-cd backend
+cd Backend
 ```
 - Install dependencies:
 ```bash
